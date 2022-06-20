@@ -1,35 +1,30 @@
+# mongoDB
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
+from pymongo import MongoClient
+# .env
 from dotenv import load_dotenv
 import os
-
-app = Flask(__name__)
-
-from pymongo import MongoClient
+# 크롤링
+import requests
+from bs4 import BeautifulSoup
+import certifi
+# JWT 패키지를 사용합니다. (설치해야할 패키지 이름: PyJWT)
+import jwt
+# 토큰에 만료시간을 줘야하기 때문에, datetime 모듈도 사용합니다.
+import datetime
+# 회원가입 시엔, 비밀번호를 암호화하여 DB에 저장해두는 게 좋습니다.
+# 그렇지 않으면, 개발자(=나)가 회원들의 비밀번호를 볼 수 있으니까요.^^;
+import hashlib
 
 # Flask
 app = Flask(__name__)
 # .env
 load_dotenv()
 DB_URL = os.environ.get('DB_URL')
-# DB
-client = MongoClient(DB_URL)
-db = client.dbtest
+client = MongoClient(DB_URL, tlsCAFile=certifi.where())
+db = client.dbtooshorts
 
-# JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
-# 이 문자열은 서버만 알고있기 때문에, 내 서버에서만 토큰을 인코딩(=만들기)/디코딩(=풀기) 할 수 있습니다.
 SECRET_KEY = 'SPARTA'
-
-# JWT 패키지를 사용합니다. (설치해야할 패키지 이름: PyJWT)
-import jwt
-
-# 토큰에 만료시간을 줘야하기 때문에, datetime 모듈도 사용합니다.
-import datetime
-
-# 회원가입 시엔, 비밀번호를 암호화하여 DB에 저장해두는 게 좋습니다.
-# 그렇지 않으면, 개발자(=나)가 회원들의 비밀번호를 볼 수 있으니까요.^^;
-import hashlib
-
-
 #################################
 ##  HTML을 주는 부분             ##
 #################################
@@ -67,6 +62,14 @@ def register():
 @app.route('/api/register', methods=['POST'])
 def api_register():
     id_receive = request.form['id_give']
+    # 예외처리1: Id중복
+    checked_id = db.user.find_one({'id': id_receive})
+    if checked_id is not None:
+        return jsonify({'result': '이미 존재하는 ID입니다.'})
+    # 예외처리2: PW불일치
+    
+    # 예외처리3: Username중복
+        
     pw_receive = request.form['pw_give']
     nickname_receive = request.form['nickname_give']
 
