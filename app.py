@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 import requests
 from bs4 import BeautifulSoup
+import certifi
 
 # Flask & bcrypt
 app = Flask(__name__)
@@ -11,7 +12,7 @@ app = Flask(__name__)
 load_dotenv()
 DB_URL = os.environ.get('DB_URL')
 
-client = MongoClient(DB_URL)
+client = MongoClient(DB_URL, tlsCAFile=certifi.where())
 db = client.dbtooshorts
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
@@ -99,7 +100,7 @@ def api_login():
             'id': id_receive,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=5)
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
         # token을 줍니다.
         return jsonify({'result': 'success', 'token': token})
