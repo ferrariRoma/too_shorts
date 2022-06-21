@@ -107,6 +107,58 @@ def api_login():
 def posting():
     return render_template("posting.html")
 
+
+# [포스팅 API]
+# 프론트에서 shorts URL, description을 받아오고, 크롤링으로 받아온 title과 next_id, username을 DB에 저장
+@app.route('/api/posting', methods=['POST'])
+def submit_posting():
+    temp_title = "tempTitle"
+    # 프론트에서 body로 받아오는 데이터
+    url_receive = request.form['URL']
+    desc_receive = request.form['description']
+
+    # 크롤링(bs4)를 사용하기 위한 작업
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+    data = requests.get(url_receive, headers=headers)
+    soup = BeautifulSoup(data.text, 'html.parser')
+    try:
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+
+        # 크롤링(bs4)를 사용하기 위한 작업
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+        data = requests.get(url_receive, headers=headers)
+        soup = BeautifulSoup(data.text, 'html.parser')
+
+        # 크롤링하여 shorts의 title을 받아옴
+        # title = soup.select('#overlay > ytd-reel-player-header-renderer > h2 > yt-formatted-string')[0]
+
+        # payload 추출
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        all_posting = list(db.postings.find({}, {'_id': False}))
+        next_id = len(all_posting) + 1
+        doc = {
+            "id": next_id,
+            "username": payload['username'],
+            "title": temp_title,
+            "description": desc_receive,
+            "URL": url_receive
+        }
+
+        db.postings.insert_one(doc)
+        return jsonify({'msg': "성공!!"})
+
+    except jwt.ExpiredSignatureError:
+        # 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
+        return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
+    except jwt.exceptions.DecodeError:
+        return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
+
+
 # 토큰이 필요한 작업을 하는데 토큰이 만료되어 있으면 아래(try-except문) 코드를 쓰면 될 거 같음
 # try:
 #     # token을 시크릿키로 디코딩합니다.
