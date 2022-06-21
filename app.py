@@ -109,7 +109,6 @@ def posting():
 # 프론트에서 shorts URL, description을 받아오고, 크롤링으로 받아온 title과 next_id, username을 DB에 저장
 @app.route('/api/posting', methods=['POST'])
 def submit_posting():
-    temp_title = "tempTitle"
     # 프론트에서 body로 받아오는 데이터
     url_receive = request.form['URL']
     desc_receive = request.form['description']
@@ -120,35 +119,32 @@ def submit_posting():
     data = requests.get(url_receive, headers=headers)
     soup = BeautifulSoup(data.text, 'html.parser')
     try:
+        # 토큰을 쿠키에서 가져옴
         token_receive = request.cookies.get('mytoken')
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-
-        # 크롤링(bs4)를 사용하기 위한 작업
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-        data = requests.get(url_receive, headers=headers)
-        soup = BeautifulSoup(data.text, 'html.parser')
-
         # 크롤링하여 shorts의 title을 받아옴
-        # title = soup.select('#overlay > ytd-reel-player-header-renderer > h2 > yt-formatted-string')[0]
-
-        # payload 추출
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        title = soup.select_one("meta[itemprop='name']")['content']
 
         all_posting = list(db.postings.find({}, {'_id': False}))
-        next_id = len(all_posting) + 1
+        temp_len = len(all_posting)
+        if temp_len == 0:
+            next_id = 1
+        else:
+            next_id = all_posting[temp_len - 1]['posting_number'] + 1
+
+
+
         doc = {
-            "id": next_id,
+            "posting_number": next_id,
             "username": payload['username'],
-            "title": temp_title,
+            "title": title,
             "description": desc_receive,
             "URL": url_receive
         }
 
         db.postings.insert_one(doc)
         return jsonify({'msg': "성공!!"})
-
     except jwt.ExpiredSignatureError:
         # 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
         return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})

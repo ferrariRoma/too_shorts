@@ -6,6 +6,9 @@ let is_okay = false;
 
     function is_shorts() {
         let shorts_url = $("#floatingUrl").val();
+        if(shorts_url.includes("?")) {
+                shorts_url = shorts_url.split("?")[0]
+            }
         if(shorts_url.includes("shorts")) {
             alert("shorts 영상이 맞습니다!");
             $("#image-box").empty();
@@ -30,7 +33,10 @@ let is_okay = false;
     function submit_complete() {
         let shorts_url = $("#floatingUrl").val();
         let description = $("#floatingDescription").val();
-        if(is_okay){
+        if(is_okay && description!==""){
+            if(shorts_url.includes("?")) {
+                shorts_url = shorts_url.split("?")[0]
+            }
             /* ajax요청으로 url과 description보내기 */
              $.ajax({
                     type: "POST",
