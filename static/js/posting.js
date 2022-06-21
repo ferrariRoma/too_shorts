@@ -30,14 +30,12 @@ let is_okay = false;
     function submit_complete() {
         let shorts_url = $("#floatingUrl").val();
         let description = $("#floatingDescription").val();
-        let username="nggoong"
         if(is_okay){
             /* ajax요청으로 url과 description보내기 */
              $.ajax({
                     type: "POST",
                     url: "/api/posting",
                     data: {
-                        'username': username,
                         "URL": shorts_url,
                         "description":description
                     },
