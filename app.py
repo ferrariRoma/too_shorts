@@ -116,6 +116,10 @@ def api_login():
     return jsonify({'result': 'success', 'token': token})
 
 
+@app.route('/posting')
+def posting():
+    return render_template("posting.html")
+
 # [유저 정보 확인 API]
 # 로그인된 유저만 call 할 수 있는 API입니다.
 # 유효한 토큰을 줘야 올바른 결과를 얻어갈 수 있습니다.
