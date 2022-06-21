@@ -1,7 +1,3 @@
-// {% if msg %}
-//     alert("{{ msg }}")
-// {% endif %}
-
 // login handler
 function login() {
   $.ajax({
