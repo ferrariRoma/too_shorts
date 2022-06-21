@@ -48,9 +48,9 @@ let is_okay = false;
                     success: function (response) {
                         let message = response['msg'];
                         alert(message);
+                        location.href = "/";
                     }
                 })
-            location.href = "/";
         }
         else if(!is_okay) alert("shorts 영상 확인해주세요!");
         else if($("#floatingDescription").val()==="") alert("description을 작성해주세요!");
