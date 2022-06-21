@@ -9,7 +9,7 @@ a, a:hover {
 
 .contents {
     max-width: 980px;
-    margin: 20px auto 0;
+    margin: 20px auto 40px;
 }
 
 .contents > div {
