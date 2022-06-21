@@ -26,18 +26,17 @@ db = client.dbtooshorts
 # home handler
 @app.route('/')
 def home():
+    # postings db list
     posts = list(db.postings.find({}, {'_id': False}))
-    return render_template('index.html', posts=posts, state='logout')
-
     # 토큰이 있을 때 nickname을 넘겨줌
     try:
         token_receive = request.cookies.get('mytoken')
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.user.find_one({"id": payload['id']})
-        return render_template('index.html', nickname=user_info["nick"], state='login')
+        return render_template('index.html', nickname=user_info["nick"], state='login', posts=posts)
     # 토큰이 없을 때 그냥 index.html렌더링
     except jwt.exceptions.DecodeError:
-        return render_template('index.html', state='logout')
+        return render_template('index.html', state='logout', posts=posts)
 
 # login page rendering
 @app.route('/login')
