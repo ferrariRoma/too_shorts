@@ -71,21 +71,20 @@
                 <a class="logo" href="#" alt="logo"><span>Too Shorts</span></a>
                 <ul class="right">
                     <!--로그아웃/로그인 전일 경우 logout클래스를 show, login을 hide-->
-                    <li class="logout">
-                        <a href="#"><span>로그인</span></a>
+                    <li class="logout{% if state == 'login'  %} hide{% endif %}">
+                        <a href="/login"><span>로그인</span></a>
                     </li>
                     <!--로그인한 경우 login클래스는 show, logout클래스를 hide-->
-                    <ul class="login">
+                    <ul class="login{% if state == 'logout'  %} hide{% endif %}">
                         <li>
                             <a href="#"><span>로그아웃</span></a>
                         </li>
                         <li>
-                            <a href="#"><span>포스팅</span></a>
+                            <a href="/posting"><span>포스팅</span></a>
                         </li>
                         <li>
                             <a href="#"><span>{{ nickname }}님의 마이페이지</span></a>
                         </li>
-                    </ul>
                     </ul>
                 </ul>
             </div>
@@ -94,24 +93,25 @@
     <div class="contents">
         <!--//contents 안에 내용을 수정하시면 됩니다.-->
         <div class="row row-cols-1 row-cols-md-2 g-4 card_wrap">
-            <div class="col">
-                <div class="card">
-                    <a href="{{ url }}" alt="유튜브 쇼츠 바로가기" target="_blank">
-                        <img src="https://i1.ytimg.com/vi/{{ thumb }}/hqdefault.jpg" class="card-img-top" alt="img">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ title }}</h5>
-                            <p class="username">{{ nickname }}</p>
-                            <p class="card-text">{{ desc }}</p>
-                        </div>
-                    </a>
+            {% for post in posts %}
+                {% set thumb = post['URL'].split('/')[-1] %}
+                <div class="col">
+                    <div class="card">
+                        <a href="{{ post.URL }}" alt="유튜브 쇼츠 바로가기" target="_blank">
+                            <img src="https://i1.ytimg.com/vi/{{ thumb }}/hqdefault.jpg" class="card-img-top" alt="img">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ post.title }}</h5>
+                                <p class="username">{{ post.username }}</p>
+                                <p class="card-text">{{ post.description }}</p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                </a>
-            </div>
+            {% endfor %}
         </div>
+        <!--//card_wrap 나머지 페이지에선 이부분 삭제-->
     </div>
-    <!--//card_wrap 나머지 페이지에선 이부분 삭제-->
-</div>
-<!--//contents-->
+    <!--//contents-->
 </div>
 <!--//wrap-->
 </body>
