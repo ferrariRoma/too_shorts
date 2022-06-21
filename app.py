@@ -34,7 +34,7 @@ def home():
         return render_template('index.html', nickname=user_info["nick"])
     # 토큰이 없을 때 그냥 index.html렌더링
     except jwt.exceptions.DecodeError:
-        return render_template('index.html')        
+        return render_template('index.html')
 
 # login page rendering
 @app.route('/login')
