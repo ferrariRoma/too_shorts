@@ -106,6 +106,9 @@ nav .right {
     right: 0;
     top: 0;
 }
+nav .hide{
+    display:none;
+}
 
 .nav_wrap > a {
     display: inline-block;

@@ -17,6 +17,8 @@
     <!--navgation scroll event //index에서만 넣고 나머지 페이지에서는 삭제-->
     <script src="/static/js/scroll.js"></script>
     <script src="/static/js/token.js" defet></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="/static/js/logout.js"></script>
 
     <!--웹폰트-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -69,51 +71,56 @@
         <nav>
           <!--index페이지 외에서는 nav에 fixed클래스 추가-->
           <div class="nav_wrap">
-            <a class="logo" href="#" alt="logo"><span>Too Shorts</span></a>
+            <a class="logo" href="/" alt="logo"><span>Too Shorts</span></a>
             <ul class="right">
               <!--로그아웃/로그인 전일 경우 logout클래스를 show, login을 hide-->
-              <li class="logout">
-                <a href="#"><span>로그인</span></a>
+              <li class="logout{% if state == 'login' %} hide{% endif %}">
+                <a href="/login"><span>로그인</span></a>
               </li>
               <!--로그인한 경우 login클래스는 show, logout클래스를 hide-->
-              <ul class="login">
+              <ul class="login{% if state == 'logout' %} hide{% endif %}">
                 <li>
-                  <a href="#"><span>로그아웃</span></a>
+                  <a href="/logout" onclick="logout()"><span>로그아웃</span></a>
                 </li>
                 <li>
-                  <a href="#"><span>포스팅</span></a>
+                  <a href="/posting"><span>포스팅</span></a>
                 </li>
                 <li>
-                  <a href="#"><span>마이페이지</span></a>
+                  <a href="/mypage"
+                    ><span>{{ nickname }}님의 마이페이지</span></a
+                  >
                 </li>
               </ul>
             </ul>
           </div>
         </nav>
       </header>
-      <div class="contents">
+      <div class="contents_wrap">
         <!--//contents 안에 내용을 수정하시면 됩니다.-->
         <div class="row row-cols-1 row-cols-md-2 g-4 card_wrap">
+          {% for post in posts %} {% set urlSplit = post['URL'].split('/')[-1]
+          %} {% set thumb = urlSplit.split('?')[0] %}
           <div class="col">
             <div class="card">
-              <a href="#" alt="유튜브 쇼츠 바로가기" target="_blank">
+              <a
+                href="{{ post.URL }}"
+                alt="유튜브 쇼츠 바로가기"
+                target="_blank"
+              >
                 <img
-                  src="https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E"
+                  src="https://i1.ytimg.com/vi/{{ thumb }}/hqdefault.jpg"
                   class="card-img-top"
                   alt="img"
                 />
                 <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="username">username</p>
-                  <p class="card-text">
-                    This is a longer card with supporting text below as a
-                    natural lead-in to additional content. This content is a
-                    little bit longer.
-                  </p>
+                  <h5 class="card-title">{{ post.title }}</h5>
+                  <p class="username">{{ post.username }}</p>
+                  <p class="card-text">{{ post.description }}</p>
                 </div>
               </a>
             </div>
           </div>
+          {% endfor %}
         </div>
         <!--//card_wrap 나머지 페이지에선 이부분 삭제-->
       </div>

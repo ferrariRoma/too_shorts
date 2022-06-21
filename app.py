@@ -1,4 +1,5 @@
 # mongoDB
+from lib2to3.pgen2 import token
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 from pymongo import MongoClient
 # .env
@@ -26,15 +27,17 @@ db = client.dbtooshorts
 # home handler
 @app.route('/')
 def home():
+    # postings db list
+    posts = list(db.postings.find({}, {'_id': False}))
     # 토큰이 있을 때 nickname을 넘겨줌
     try:
         token_receive = request.cookies.get('mytoken')
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.user.find_one({"id": payload['id']})
-        return render_template('index.html', nickname=user_info["nick"])
+        return render_template('index.html', nickname=user_info["nick"], state='login', posts=posts)
     # 토큰이 없을 때 그냥 index.html렌더링
     except jwt.exceptions.DecodeError:
-        return render_template('index.html')
+        return render_template('index.html', state='logout', posts=posts)
 
 # login page rendering
 @app.route('/login')
@@ -47,6 +50,16 @@ def login():
 def register():
     return render_template('register.html')
 
+# logout
+@app.route('/logout')
+def logout():
+    # token_receive = request.cookies.get('mytoken')
+    # payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    # print(token_receive)
+    # print(payload)
+    request.cookies.pop('mytoken')
+    return redirect(url_for("login", msg="로그아웃 완료"))
+
 # signup post handler
 @app.route('/api/register', methods=['POST'])
 def api_register():
@@ -54,6 +67,10 @@ def api_register():
     nickname_receive = request.form['nickname_give']
     pw_receive = request.form['pw_give']
     checked_pw_receive = request.form['checked_pw_give']
+
+    # 빈 input 예외처리
+    if id_receive and nickname_receive and pw_receive and checked_pw_receive is None:
+        return jsonify({'msg': '회원정보를 모두 입력해주세요.'})
 
     # 예외처리1: Id중복
     checked_id = db.user.find_one({'id': id_receive})
@@ -80,6 +97,10 @@ def api_login():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
 
+    # 빈 input 예외처리
+    if id_receive and pw_receive is None:
+        return jsonify({'msg': '회원정보를 모두 입력해주세요.'})
+
     # 회원가입과 같은 방법으로 pw를 암호화
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
@@ -97,12 +118,20 @@ def api_login():
     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
     
     # token을 줍니다.
-    return jsonify({'result': 'success', 'token': token})        
+    return jsonify({'result': 'success', 'token': token})
 
 # posting rendering
 @app.route('/posting')
 def posting():
-    return render_template("posting.html")
+    # 토큰이 있을 때 nickname을 넘겨줌
+    try:
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"id": payload['id']})
+        return render_template('posting.html', nickname=user_info["nick"], state='login')
+    # 토큰이 없을 때 그냥 index.html렌더링
+    except jwt.exceptions.DecodeError:
+        return render_template('posting.html', state='logout')
 
 
 # [포스팅 API]
@@ -151,6 +180,19 @@ def submit_posting():
     except jwt.exceptions.DecodeError:
         return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
 
+@app.route('/mypage')
+def mypage():
+    # postings db list
+    posts = list(db.postings.find({}, {'_id': False}))
+    # 토큰이 있을 때 nickname을 넘겨줌
+    try:
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"id": payload['id']})
+        return render_template('mypage.html', nickname=user_info["nick"], state='login', posts=posts)
+    # 토큰이 없을 때 그냥 index.html렌더링
+    except jwt.exceptions.DecodeError:
+        return render_template('mypage.html', state='logout', posts=posts)
 
 # 토큰이 필요한 작업을 하는데 토큰이 만료되어 있으면 아래(try-except문) 코드를 쓰면 될 거 같음
 # try:
