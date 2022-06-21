@@ -46,8 +46,6 @@ let is_okay = false;
                         "description":description
                     },
                     success: function (response) {
-                        let message = response['msg'];
-                        alert(message);
                         location.href = "/";
                     }
                 })
