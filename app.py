@@ -141,6 +141,9 @@ def api_valid():
     except jwt.exceptions.DecodeError:
         return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
 
+@app.route('/posting')
+def posting():
+    return render_template("posting.html")
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=4000, debug=True)
