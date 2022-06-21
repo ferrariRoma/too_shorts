@@ -9,11 +9,7 @@
     <!--jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!--부트스트랩-->
-    <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <!--navgation scroll event //index에서만 넣고 나머지 페이지에서는 삭제-->
     <script src="/static/js/scroll.js"></script>
     <script src="/static/js/token.js" defet></script>
@@ -25,22 +21,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <!--CSS-->
     <!--웹폰트(roboto)-->
-    <link
-            href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
-            rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
     <!--부트스트랩-->
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-            crossorigin="anonymous"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
     <!--reset-->
-    <link
-            rel="stylesheet"
-            href="https://meyerweb.com/eric/tools/css/reset/reset200802.css"
-    />
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset200802.css"/>
     <!--common(공통,contents)-->
     <link rel="stylesheet" href="/static/css/common.css"/>
     <!--navigation-->
@@ -58,19 +43,13 @@
                 <span>유튜브 쇼츠 공유 사이트입니다.</span>
             </div>
             <div class="frame_wrap">
-                <iframe
-                        src="https://www.youtube.com/embed/9EJIH8kxTn8?controls=0&autoplay=1&mute=1&loop=1&playlist=9EJIH8kxTn8&playsinline=1"
-                        title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen
-                ></iframe>
+                <iframe src="https://www.youtube.com/embed/9EJIH8kxTn8?controls=0&autoplay=1&mute=1&loop=1&playlist=9EJIH8kxTn8&playsinline=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
         <!--//index외에선 header_wrap는 삭제하시면 됩니다.-->
         <nav><!--index페이지 외에서는 nav에 fixed클래스 추가-->
             <div class="nav_wrap">
-                <a class="logo" href="#" alt="logo"><span>Too Shorts</span></a>
+                <a class="logo" href="/" alt="logo"><span>Too Shorts</span></a>
                 <ul class="right">
                     <!--로그아웃/로그인 전일 경우 logout클래스를 show, login을 hide-->
                     <li class="logout{% if state == 'login'  %} hide{% endif %}">
@@ -96,7 +75,8 @@
         <!--//contents 안에 내용을 수정하시면 됩니다.-->
         <div class="row row-cols-1 row-cols-md-2 g-4 card_wrap">
             {% for post in posts %}
-                {% set thumb = post['URL'].split('/')[-1] %}
+                {% set urlSplit = post['URL'].split('/')[-1] %}
+                {% set thumb = urlSplit.split('?')[0] %}
                 <div class="col">
                     <div class="card">
                         <a href="{{ post.URL }}" alt="유튜브 쇼츠 바로가기" target="_blank">
