@@ -1,9 +1,2 @@
 .env
-<<<<<<< HEAD
-.vscode/
-reference/
-templates/reformed_loing.html
-templates/reformed_signup.html
-=======
 venv
->>>>>>> ba7edee
