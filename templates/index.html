@@ -67,7 +67,7 @@
                             <a href="#"><span>포스팅</span></a>
                         </li>
                         <li>
-                            <a href="#"><span>마이페이지</span></a>
+                            <a href="#"><span>{{ nickname }}님의 마이페이지</span></a>
                         </li>
                     </ul>
                 </ul>
@@ -79,13 +79,12 @@
         <div class="row row-cols-1 row-cols-md-2 g-4 card_wrap">
             <div class="col">
                 <div class="card">
-                    <a href="#" alt="유튜브 쇼츠 바로가기" target="_blank">
-                        <img src="https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E" class="card-img-top" alt="img">
+                    <a href="{{ url }}" alt="유튜브 쇼츠 바로가기" target="_blank">
+                        <img src="https://i1.ytimg.com/vi/{{ thumb }}/hqdefault.jpg" class="card-img-top" alt="img">
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="username">username</p>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
-                                additional content. This content is a little bit longer.</p>
+                            <h5 class="card-title">{{ title }}</h5>
+                            <p class="username">{{ nickname }}</p>
+                            <p class="card-text">{{ desc }}</p>
                         </div>
                     </a>
                 </div>
