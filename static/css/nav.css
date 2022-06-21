@@ -12,6 +12,7 @@
     flex-direction: column;
     width: 100%;
     height: 400px;
+    text-align: center;
 }
 
 .header_wrap > .text > h1 {
@@ -112,4 +113,16 @@ nav .right {
 
 nav ul, nav li {
     display: inline-block;
+}
+
+@media (max-width:340px){
+    nav{
+        font-size:12px;
+    }
+    nav a span{
+        padding: 14px 0;
+    }
+    .nav_wrap > a, .nav_wrap > ul.right li a{
+        padding: 0 8px;
+    }
 }
