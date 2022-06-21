@@ -157,6 +157,19 @@ def submit_posting():
     except jwt.exceptions.DecodeError:
         return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
 
+@app.route('/mypage')
+def mypage():
+    # postings db list
+    posts = list(db.postings.find({}, {'_id': False}))
+    # 토큰이 있을 때 nickname을 넘겨줌
+    try:
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"id": payload['id']})
+        return render_template('mypage.html', nickname=user_info["nick"], state='login', posts=posts)
+    # 토큰이 없을 때 그냥 index.html렌더링
+    except jwt.exceptions.DecodeError:
+        return render_template('mypage.html', state='logout', posts=posts)
 
 # 토큰이 필요한 작업을 하는데 토큰이 만료되어 있으면 아래(try-except문) 코드를 쓰면 될 거 같음
 # try:
