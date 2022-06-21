@@ -8,6 +8,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 import certifi
+
 # JWT 패키지를 사용합니다. (설치해야할 패키지 이름: PyJWT)
 import jwt
 # 토큰에 만료시간을 줘야하기 때문에, datetime 모듈도 사용합니다.
