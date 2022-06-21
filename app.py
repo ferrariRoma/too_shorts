@@ -104,7 +104,15 @@ def api_login():
 # posting rendering
 @app.route('/posting')
 def posting():
-    return render_template("posting.html")
+    # 토큰이 있을 때 nickname을 넘겨줌
+    try:
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"id": payload['id']})
+        return render_template('posting.html', nickname=user_info["nick"], state='login')
+    # 토큰이 없을 때 그냥 index.html렌더링
+    except jwt.exceptions.DecodeError:
+        return render_template('posting.html', state='logout')
 
 
 # [포스팅 API]

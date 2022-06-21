@@ -1,49 +1,88 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="./static/css/posting.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Bulma CSS -->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">-->
+    <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">-->
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script src="../static/js/posting.js" defer></script>
-    <title>posting</title>
+    <script src="/static/js/logout.js"></script>
+    <!--웹폰트-->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <!--CSS-->
+    <!--웹폰트(roboto)-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+    <!--reset-->
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset200802.css"/>
+    <!--common(공통,contents)-->
+    <link rel="stylesheet" href="/static/css/common.css"/>
+    <!--navigation-->
+    <link rel="stylesheet" href="/static/css/nav.css"/>
+
+    <title>Too Shorts</title>
 </head>
 <body>
-    <div class="posting-wrapper">
-        <div class="posting-box">
-            <div class="contents">
-                <div class="image-box" id="image-box">
-                    <p>Shorts thumbnails</p>
-                </div>
-                <div class="inputs">
-                    <div class="form-floating">
-                        <input type="text" class="form-control url-input" id="floatingUrl" placeholder="URL">
-                        <label for="floatingUrl">URL</label>
-                        <button type="button" class="btn btn-outline-primary" onclick="is_shorts()">확인</button>
+<div class="wrap">
+    <!--헤더-->
+    <header>
+        <nav class="fixed">
+            <div class="nav_wrap">
+                <a class="logo" href="/" alt="logo"><span>Too Shorts</span></a>
+                <ul class="right">
+                    <!--로그아웃/로그인 전일 경우 logout클래스를 show, login을 hide-->
+                    <li class="logout{% if state == 'login' %} hide{% endif %}">
+                        <a href="/login"><span>로그인</span></a>
+                    </li>
+                    <!--로그인한 경우 login클래스는 show, logout클래스를 hide-->
+                    <ul class="login{% if state == 'logout' %} hide{% endif %}">
+                        <li>
+                            <a href="#" onclick="logout()"><span>로그아웃</span></a>
+                        </li>
+                        <li>
+                            <a class="selected" href="/posting"><span>포스팅</span></a>
+                        </li>
+                        <li>
+                            <a href="/mypage"><span>{{ nickname }}님의 마이페이지</span></a>
+                        </li>
+                    </ul>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="contents_wrap">
+        <div class="posting-wrapper">
+            <div class="posting-box">
+                <div class="contents">
+                    <div class="image-box" id="image-box">
+                        <p>Shorts thumbnails</p>
                     </div>
-                    <div class="form-floating desc-input">
-                        <input type="text" class="form-control" id="floatingDescription" placeholder="description">
-                        <label for="floatingDescription">Description</label>
+                    <div class="inputs">
+                        <div class="form-floating">
+                            <input type="text" class="form-control url-input" id="floatingUrl" placeholder="URL">
+                            <label for="floatingUrl">URL</label>
+                            <button type="button" class="btn btn-outline-primary" onclick="is_shorts()">확인</button>
+                        </div>
+                        <div class="form-floating desc-input">
+                            <input type="text" class="form-control" id="floatingDescription" placeholder="description">
+                            <label for="floatingDescription">Description</label>
+                        </div>
                     </div>
-                </div>
-                <div class="buttons" id="buttons">
-                    <button type="button" class="btn btn-primary" id="temp" onclick="submit_complete()">완료</button>
-                    <button type="button" class="btn btn-danger" onclick="submit_cancel()">취소</button>
+                    <div class="buttons" id="buttons">
+                        <button type="button" class="btn btn-primary" id="temp" onclick="submit_complete()">완료</button>
+                        <button type="button" class="btn btn-danger" onclick="submit_cancel()">취소</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
-
-<script>
-
-</script>
 </html>

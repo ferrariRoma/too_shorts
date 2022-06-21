@@ -1,105 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Webpage Title -->
-    <title>Hello, world!</title>
-
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <!-- Bulma CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"/>
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script src="/static/js/token.js" defer></script>
-  </head>
-  <body>
-    <div class="section has-text-centered">
-      <h1 class="title">회원가입 페이지</h1>
-      <div class="container" style="width: 60%">
-        <div class="field is-horizontal">
-          <div class="field-label is-normal">
-            <label class="label" for="userid">ID</label>
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <input
-                  type="text"
-                  class="input"
-                  id="userid"
-                  aria-describedby="emailHelp"
-                  placeholder="My ID"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="field is-horizontal">
-          <div class="field-label is-normal">
-            <label class="label" for="usernick">NICKNAME</label>
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <input
-                  type="text"
-                  class="input"
-                  id="usernick"
-                  placeholder="My Nickname"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+    <!--웹폰트-->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <!--CSS-->
+    <!--웹폰트(roboto)-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+    <!--reset-->
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset200802.css"/>
+    <!--common(공통,contents)-->
+    <link rel="stylesheet" href="/static/css/common.css"/>
+    <!--navigation-->
+    <link rel="stylesheet" href="/static/css/nav.css"/>
 
-        <div class="field is-horizontal">
-          <div class="field-label is-normal">
-            <label class="label" for="userpw">PW</label>
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <input
-                  type="password"
-                  class="input"
-                  id="userpw"
-                  placeholder="My Password"
-                />
-              </div>
+    <title>Too Shorts</title>
+</head>
+<body>
+<div class="wrap">
+    <!--헤더-->
+    <header>
+        <nav>
+            <div class="nav_wrap">
+                <a class="logo" href="/" alt="logo"><span>Too Shorts</span></a>
+                <ul class="right">
+                    <li class="logout">
+                        <a href="/login"><span>로그인</span></a>
+                    </li>
+                </ul>
             </div>
-          </div>
-        </div>
+        </nav>
+    </header>
+    <div class="contents_wrap">
+        <div class="section has-text-centered">
+            <h1 class="title">회원가입 페이지</h1>
+            <div class="container" style="width: 60%">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" for="userid">ID</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input
+                                        type="text"
+                                        class="input"
+                                        id="userid"
+                                        aria-describedby="emailHelp"
+                                        placeholder="My ID"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="field is-horizontal">
-          <div class="field-label is-normal">
-            <label class="label" for="userpw">Confirm PW</label>
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <div class="control">
-                <input
-                  type="password"
-                  class="input"
-                  id="usercheckedpw"
-                  placeholder="Confirm Password"
-                />
-              </div>
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" for="usernick">NICKNAME</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input
+                                        type="text"
+                                        class="input"
+                                        id="usernick"
+                                        placeholder="My Nickname"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" for="userpw">PW</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input
+                                        type="password"
+                                        class="input"
+                                        id="userpw"
+                                        placeholder="My Password"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label" for="userpw">Confirm PW</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input
+                                        type="password"
+                                        class="input"
+                                        id="usercheckedpw"
+                                        placeholder="Confirm Password"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="button is-primary" onclick="register()">회원가입</button>
             </div>
-          </div>
         </div>
-
-        <button class="button is-primary" onclick="register()">회원가입</button>
-      </div>
     </div>
-  </body>
+</div>
+</body>
 </html>
