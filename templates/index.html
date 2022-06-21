@@ -16,10 +16,9 @@
     ></script>
     <!--navgation scroll event //index에서만 넣고 나머지 페이지에서는 삭제-->
     <script src="/static/js/scroll.js"></script>
-    <script src="/static/js/token.js" defet></script>
+    <script src="/static/js/token.js" defer></script>
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <script src="/static/js/logout.js"></script>
-
+    <script src="/static/js/logout.js" defer></script>
     <!--웹폰트-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -80,7 +79,9 @@
               <!--로그인한 경우 login클래스는 show, logout클래스를 hide-->
               <ul class="login{% if state == 'logout' %} hide{% endif %}">
                 <li>
-                  <a href="/logout" onclick="logout()"><span>로그아웃</span></a>
+                  <a href="/" class="logout__btn" onclick="logout()"
+                    ><span>로그아웃</span></a
+                  >
                 </li>
                 <li>
                   <a href="/posting"><span>포스팅</span></a>

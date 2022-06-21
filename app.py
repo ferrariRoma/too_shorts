@@ -1,6 +1,6 @@
 # mongoDB
 from lib2to3.pgen2 import token
-from flask import Flask, render_template, jsonify, request, session, redirect, url_for
+from flask import Flask, Request, Response, render_template, jsonify, request, session, redirect, url_for
 from pymongo import MongoClient
 # .env
 from dotenv import load_dotenv
@@ -49,16 +49,6 @@ def login():
 @app.route('/register')
 def register():
     return render_template('register.html')
-
-# logout
-@app.route('/logout')
-def logout():
-    # token_receive = request.cookies.get('mytoken')
-    # payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    # print(token_receive)
-    # print(payload)
-    request.cookies.pop('mytoken')
-    return redirect(url_for("login", msg="로그아웃 완료"))
 
 # signup post handler
 @app.route('/api/register', methods=['POST'])

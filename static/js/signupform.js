@@ -2,6 +2,7 @@ const userid = document.querySelector(".userid");
 const userpw = document.querySelector(".userpw");
 const usercheckedpw = document.querySelector(".usercheckedpw");
 const usernick = document.querySelector(".usernick");
+
 const signup__btn = document.querySelector("#signup__btn");
 
 function activeBtn() {
