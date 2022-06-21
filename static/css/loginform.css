@@ -12,6 +12,9 @@
 
 .form-control {
   width: 30vw;
+}
+
+.form-floating {
   margin-bottom: 15px;
 }
 
@@ -26,18 +29,20 @@
   flex-direction: column;
 }
 
-.btn__container > button:last-child {
+.signup__btn {
   margin: auto;
   margin-top: 10px;
   width: 10vw;
-  background-color: inherit;
+  background-color: white;
   border: none;
   color: black;
   opacity: 0.5;
 }
 
-.btn__container > button:last-child:hover {
+.signup__btn:hover {
   animation: signup 0.2s linear forwards;
+  background-color: white;
+  color: black;
 }
 @keyframes signup {
   from {

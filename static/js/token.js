@@ -26,10 +26,10 @@ function register() {
     type: "POST",
     url: "/api/register",
     data: {
-      id_give: $("#userid").val(),
-      pw_give: $("#userpw").val(),
-      checked_pw_give: $("#usercheckedpw").val(),
-      nickname_give: $("#usernick").val(),
+      id_give: $(".userid").val(),
+      pw_give: $(".userpw").val(),
+      checked_pw_give: $(".usercheckedpw").val(),
+      nickname_give: $(".usernick").val(),
     },
     success: function (response) {
       if (response["result"] == "success") {
