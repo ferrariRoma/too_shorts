@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
+<<<<<<< HEAD
 from dotenv import load_dotenv
 import os
 
@@ -7,13 +8,29 @@ app = Flask(__name__)
 from pymongo import MongoClient
 
 # Flask
+=======
+from pymongo import MongoClient
+from dotenv import load_dotenv
+import os
+import requests
+from bs4 import BeautifulSoup
+import certifi
+
+# Flask & bcrypt
+>>>>>>> 933ad0a
 app = Flask(__name__)
 # .env
 load_dotenv()
 DB_URL = os.environ.get('DB_URL')
+<<<<<<< HEAD
 # DB
 client = MongoClient(DB_URL)
 db = client.dbtest
+=======
+
+client = MongoClient(DB_URL, tlsCAFile=certifi.where())
+db = client.dbtooshorts
+>>>>>>> 933ad0a
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
 # 이 문자열은 서버만 알고있기 때문에, 내 서버에서만 토큰을 인코딩(=만들기)/디코딩(=풀기) 할 수 있습니다.
