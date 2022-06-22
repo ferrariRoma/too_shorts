@@ -74,7 +74,7 @@ def api_register():
         return jsonify({'msg': 'PW가 일치하지 않습니다.'})
 
     # 예외처리3: Username중복
-    checked_nickname = db.user.find_one({'id': nickname_receive})
+    checked_nickname = db.user.find_one({'nick': nickname_receive})
     if checked_nickname is not None:
         return jsonify({'msg': '이미 존재하는 Username 입니다.'})
 
