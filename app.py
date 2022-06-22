@@ -119,9 +119,9 @@ def posting():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.user.find_one({"id": payload['id']})
         return render_template('posting.html', nickname=user_info["nick"], state='login')
-    # 토큰이 없을 때 그냥 index.html렌더링
+    # 토큰이 없을 때 그냥 login.html렌더링
     except jwt.exceptions.DecodeError:
-        return render_template('posting.html', state='logout')
+        return render_template('login.html', state='logout')
 
 
 # [포스팅 API]
@@ -185,9 +185,9 @@ def mypage():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.user.find_one({"id": payload['id']})
         return render_template('mypage.html', nickname=user_info["nick"], state='login', posts=posts, title='마이페이지')
-    # 토큰이 없을 때 그냥 index.html렌더링
+    # 토큰이 없을 때 그냥 login.html렌더링
     except jwt.exceptions.DecodeError:
-        return render_template('mypage.html', state='logout', posts=posts)
+        return render_template('login.html', state='logout', posts=posts)
 
 @app.route('/mypage/del', methods=["POST"])
 def mypage_del():
@@ -223,9 +223,9 @@ def video(id):
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.user.find_one({"id": payload['id']})
         return render_template('video.html', nickname=user_info["nick"], state='login', youtubeId=id, title=post['title'])
-    # 토큰이 없을 때 그냥 index.html렌더링
+    # 토큰이 없을 때 그냥 login.html렌더링
     except jwt.exceptions.DecodeError:
-        return render_template('video.html', state='logout', youtubeId=id, title=post['title'])
+        return render_template('login.html', state='logout', youtubeId=id, title=post['title'])
 
 
 # 토큰이 필요한 작업을 하는데 토큰이 만료되어 있으면 아래(try-except문) 코드를 쓰면 될 거 같음
