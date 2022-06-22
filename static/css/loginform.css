@@ -12,6 +12,12 @@
 
 .form-control {
   width: 30vw;
+  border: none;
+  border-radius: 0;
+}
+
+.form-control:focus {
+  outline: none;
 }
 
 .form-floating {
@@ -20,7 +26,23 @@
 
 .form-floating > label {
   font-size: 20px;
+  opacity: 0.6;
 }
+
+.form-control:focus {
+  color: none;
+  border-color: none;
+  background-color: none;
+  outline: none;
+}
+
+.form-floating > input {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+/* .form-floating > input:focus {
+  border-bottom: 1.5px solid #d21310;
+} */
 
 .btn__container {
   margin-top: 20px;
