@@ -42,13 +42,28 @@ def home():
 # login page rendering
 @app.route('/login')
 def login():
-    msg = request.args.get("msg")
-    return render_template('login.html', msg=msg)
+    # 로그인 상태에서 로그인 라우터로 접근 시도했을 때,
+    try:
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        return redirect(url_for('home'))
+    # 로그인이 안됐을 때는 원래 로직을,
+    except jwt.exceptions.DecodeError:
+        msg = request.args.get("msg")
+        return render_template('login.html', state='logout', msg=msg)
 
 # signup page rendering
 @app.route('/register')
 def register():
-    return render_template('register.html')
+    # 로그인 상태에서 회원가입 라우터로 접근했을 때,
+    try:
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        return redirect(url_for('home'))
+    # 로그인이 안됐을 때는 원래 로직을,
+    except jwt.exceptions.DecodeError:
+        msg = request.args.get("msg")
+        return render_template('register.html', state='logout', msg=msg)
 
 # signup post handler
 @app.route('/api/register', methods=['POST'])
@@ -175,6 +190,7 @@ def submit_posting():
     except jwt.exceptions.DecodeError:
         return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
 
+# mypage handler
 @app.route('/mypage')
 def mypage():
     # postings db list
@@ -188,23 +204,6 @@ def mypage():
     # 토큰이 없을 때 그냥 index.html렌더링
     except jwt.exceptions.DecodeError:
         return render_template('mypage.html', state='logout', posts=posts)
-
-# 토큰이 필요한 작업을 하는데 토큰이 만료되어 있으면 아래(try-except문) 코드를 쓰면 될 거 같음
-# try:
-#     # token을 시크릿키로 디코딩합니다.
-#     # 보실 수 있도록 payload를 print 해두었습니다. 우리가 로그인 시 넣은 그 payload와 같은 것이 나옵니다.
-#     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#     print(payload)
-
-#     # payload 안에 id가 들어있습니다. 이 id로 유저정보를 찾습니다.
-#     # 여기에선 그 예로 닉네임을 보내주겠습니다.
-#     userinfo = db.user.find_one({'id': payload['id']}, {'_id': 0})
-#     return jsonify({'result': 'success', 'nickname': userinfo['nick']})
-# except jwt.ExpiredSignatureError:
-#     # 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
-#     return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
-# except jwt.exceptions.DecodeError:
-#     return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=4000, debug=True)
