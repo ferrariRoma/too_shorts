@@ -8,24 +8,29 @@
 
 .posting-wrapper {
     /*overflow:hidden;*/
-    width:99vw;
-    height:90vh;
-    display:flex;
-    justify-content: center;
-    align-items:center;
+    /*width:99vw;*/
+    /*height:90vh;*/
+    /*display:flex;*/
+    /*justify-content: center;*/
+    /*align-items:center;*/
     /*position:absolute;*/
     /*top:0;*/
     /*left:0;*/
+
 }
 
 .posting-box {
     display:flex;
     justify-content: center;
     align-items: center;
-    width:40vw;
-    height:70vh;
+    /*width:40vw;*/
+    /*height:70vh;*/
+    width:25vw;
+    min-width:400px;
+    height:80vh;
     background:lightgray;
     border-radius: 10px;
+    margin:0 auto;
 }
 
 .contents {
@@ -89,4 +94,7 @@ input.url-input{
     width:50%;
 }
 
-
+.contents_wrap{
+    margin-top:40px!important;
+    padding-top:40px;
+}
