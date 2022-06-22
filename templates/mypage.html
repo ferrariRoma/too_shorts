@@ -17,6 +17,7 @@
     <script src="/static/js/token.js" defer></script>
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="/static/js/logout.js"></script>
+    <script src="/static/js/modify.js"></script>
 
     <!--웹폰트-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -95,12 +96,13 @@
         <!--//contents 안에 내용을 수정하시면 됩니다.-->
         <h4 class="title"><b>마이 페이지</b> > 내가 작성한 포스팅</h4>
         <div class="row row-cols-1 row-cols-md-2 g-4 card_wrap">
-          {% for post in posts %} {% if post['username'] == nickname %} {% set
+          {% for post in posts %} {% set posting_number = post['posting_number']%}
+          {% if post['username'] == nickname %} {% set
           urlSplit = post['URL'].split('/')[-1] %} {% set thumb =
           urlSplit.split('?')[0] %}
           <div class="col">
             <div class="card">
-              <button type="button" class="btn btn-primary" onclick="window.location.href='포스팅 수정 사이트 링크'">
+              <button type="button" class="btn btn-primary" onclick="window.location.href='/modify/{{ posting_number }}'">
                 수정
               </button>
               <button type="button" class="btn btn-danger" onclick="postDelete({{ post.posting_number }})">
