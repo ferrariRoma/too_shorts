@@ -293,7 +293,7 @@ def video(id):
         return render_template('video.html', nickname=user_info["nick"], state='login', youtubeId=id, title=post['title'])
     # 토큰이 없을 때 그냥 login.html렌더링
     except jwt.exceptions.DecodeError:
-        return render_template('login.html', state='logout', youtubeId=id, title=post['title'])
+        return render_template('video.html', state='logout', youtubeId=id, title=post['title'])
 
 
 if __name__ == '__main__':
