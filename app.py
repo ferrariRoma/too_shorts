@@ -120,7 +120,7 @@ def api_login():
         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=60*60*24),
         'username': result['nick']
     }
-    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
     
     # token을 줍니다.
     return jsonify({'result': 'success', 'token': token})
@@ -297,4 +297,4 @@ def video(id):
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=4000, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)
