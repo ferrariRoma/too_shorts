@@ -189,6 +189,26 @@ def mypage():
     except jwt.exceptions.DecodeError:
         return render_template('mypage.html', state='logout', posts=posts)
 
+# video handler
+@app.route('/video/<id>')
+def video(id):
+    # postings db list
+    db_list = db.postings.find_one({'URL':'https://www.youtube.com/shorts/'+id+''})
+    if db_list is None:
+        post = db.postings.find_one({'URL':'https://youtube.com/shorts/'+id+''})
+    else :
+        post = db_list
+    # 토큰이 있을 때 nickname을 넘겨줌
+    try:
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"id": payload['id']})
+        return render_template('video.html', nickname=user_info["nick"], state='login', youtubeId=id, title=post['title'])
+    # 토큰이 없을 때 그냥 index.html렌더링
+    except jwt.exceptions.DecodeError:
+        return render_template('video.html', state='logout', youtubeId=id, title=post['title'])
+
+
 # 토큰이 필요한 작업을 하는데 토큰이 만료되어 있으면 아래(try-except문) 코드를 쓰면 될 거 같음
 # try:
 #     # token을 시크릿키로 디코딩합니다.

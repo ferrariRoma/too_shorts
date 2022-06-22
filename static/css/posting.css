@@ -7,15 +7,15 @@
 
 
 .posting-wrapper {
-    overflow:hidden;
+    /*overflow:hidden;*/
     width:99vw;
-    height:99vh;
+    height:90vh;
     display:flex;
     justify-content: center;
     align-items:center;
-    position:absolute;
-    top:0;
-    left:0;
+    /*position:absolute;*/
+    /*top:0;*/
+    /*left:0;*/
 }
 
 .posting-box {
@@ -63,6 +63,9 @@
 
 .inputs {
     width:100%;
+}
+input.url-input{
+    padding-right:82.8px!important;
 }
 .form-floating {
     position: relative;

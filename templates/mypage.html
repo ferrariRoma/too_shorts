@@ -75,9 +75,7 @@
                   <a href="/posting"><span>포스팅</span></a>
                 </li>
                 <li>
-                  <a href="/mypage" class="selected"
-                    ><span>{{ nickname }}님의 마이페이지</span></a
-                  >
+                  <a class="selected" href="/mypage" title="마이페이지"><span class="mypage"><p>{{ nickname }}</p>님</span></a>
                 </li>
               </ul>
             </ul>
@@ -93,31 +91,15 @@
           urlSplit.split('?')[0] %}
           <div class="col">
             <div class="card">
-              <button
-                type="button"
-                class="btn btn-primary"
-                onclick="window.location.href='포스팅 수정 사이트 링크'"
-              >
+              <button type="button" class="btn btn-primary" onclick="window.location.href='포스팅 수정 사이트 링크'">
                 수정
               </button>
-              <button
-                type="button"
-                class="btn btn-danger"
-                onclick="postDelete()"
-              >
+              <button type="button" class="btn btn-danger" onclick="postDelete()">
                 삭제
               </button>
-              <a
-                href="{{ post.URL }}"
-                alt="유튜브 쇼츠 바로가기"
-                target="_blank"
-              >
+              <a href="video/{{ thumb }}" alt="유튜브 쇼츠 바로가기" target="_self">
                 <div class="testImg">
-                  <img
-                    src="https://i1.ytimg.com/vi/{{ thumb }}/hqdefault.jpg"
-                    class="card-img-top"
-                    alt="img"
-                  />
+                  <img src="https://i1.ytimg.com/vi/{{ thumb }}/hqdefault.jpg" class="card-img-top" alt="img"/>
                 </div>
                 <div class="card-body">
                   <h5 class="card-title">{{ post.title }}</h5>

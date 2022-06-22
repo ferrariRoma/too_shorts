@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!--JS-->
+    <!--jquery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--부트스트랩-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script src="/static/js/token.js" defer></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.mi.js"></script>
+    <script src="/static/js/logout.js" defer></script>
+    <!--웹폰트-->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <!--CSS-->
+    <!--웹폰트(roboto)-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
+    <!--부트스트랩-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
+    <!--reset-->
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset200802.css"/>
+    <!--common(공통,contents)-->
+    <link rel="stylesheet" href="/static/css/common.css"/>
+    <!--navigation-->
+    <link rel="stylesheet" href="/static/css/nav.css"/>
+    <style>
+        .video_wrap{
+            text-align:center;
+            margin-top:20px!important;
+        }
+        .video_wrap>iframe{
+            width:469px;
+            height:832px;
+        }
+    </style>
+
+    <title>Too Shorts | {{ title }}</title>
+</head>
+<body>
+<div class="wrap">
+    <!--헤더-->
+    <header>
+        <nav>
+            <!--index페이지 외에서는 nav에 fixed클래스 추가-->
+            <div class="nav_wrap">
+                <a class="logo" href="/" alt="logo"><span>Too Shorts</span></a>
+                <ul class="right">
+                    <!--로그아웃/로그인 전일 경우 logout클래스를 show, login을 hide-->
+                    <li class="logout{% if state == 'login' %} hide{% endif %}">
+                        <a href="/login"><span>로그인</span></a>
+                    </li>
+                    <!--로그인한 경우 login클래스는 show, logout클래스를 hide-->
+                    <ul class="login{% if state == 'logout' %} hide{% endif %}">
+                        <li>
+                            <a href="/" class="logout__btn" onclick="logout()"><span>로그아웃</span></a>
+                        </li>
+                        <li>
+                            <a href="/posting"><span>포스팅</span></a>
+                        </li>
+                        <li>
+                            <a href="/mypage" title="마이페이지"><span class="mypage"><p>{{ nickname }}</p>님</span></a>
+                        </li>
+                    </ul>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="contents_wrap">
+        <div class="video_wrap">
+            <iframe src="https://www.youtube.com/embed/{{ youtubeId }}?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+    <!--//contents-->
+</div>
+<!--//wrap-->
+</body>
+</html>
