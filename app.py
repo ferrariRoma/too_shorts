@@ -175,6 +175,47 @@ def submit_posting():
     except jwt.exceptions.DecodeError:
         return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
 
+@app.route('/modify/<posting_number>')
+def modify(posting_number):
+    posting = db.postings.find_one({'posting_number':int(posting_number)})
+    posting_url = posting['URL']
+    posting_desc = posting['description']
+    return render_template('modify.html', URL=posting_url, desc=posting_desc, number=posting_number)
+
+
+@app.route('/api/modify', methods=['POST'])
+def modify_post():
+    posting_number = request.form['posting_number']
+    URL = request.form['URL']
+    desc = request.form['desc']
+
+    # 크롤링(bs4)를 사용하기 위한 작업
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+    data = requests.get(URL, headers=headers)
+    soup = BeautifulSoup(data.text, 'html.parser')
+
+    title = soup.select_one("meta[itemprop='name']")['content']
+
+    try:
+        # 토큰을 쿠키에서 가져옴
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        db.postings.update_one({'posting_number':int(posting_number)}, {'$set':{'title': title, 'URL':URL, 'description':desc}})
+
+        posts = list(db.postings.find({}, {'_id': False}))
+        user_info = db.user.find_one({"id": payload['id']})
+        return render_template('index.html', nickname=user_info["nick"], state='login', posts=posts)
+
+    except jwt.ExpiredSignatureError:
+        # 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
+        return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
+    except jwt.exceptions.DecodeError:
+        return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
+
+
+
 @app.route('/mypage')
 def mypage():
     # postings db list
