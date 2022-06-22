@@ -45,6 +45,7 @@
       <!--헤더-->
       <header>
         <nav class="fixed">
+          <!--index페이지 외에서는 nav에 fixed클래스 추가-->
           <div class="nav_wrap">
             <a class="logo" href="/" alt="logo"><span>Too Shorts</span></a>
             <ul class="right">
@@ -58,10 +59,10 @@
                   <a href="/" onclick="logout()"><span>로그아웃</span></a>
                 </li>
                 <li>
-                  <a class="selected" href="/posting"><span>포스팅</span></a>
+                  <a href="/posting"><span>포스팅</span></a>
                 </li>
                 <li>
-                  <a href="/mypage" title="마이페이지"><span class="mypage"><p>{{ nickname }}</p>님</span></a>
+                  <a class="selected" href="/mypage" title="마이페이지"><span class="mypage"><p>{{ nickname }}</p>님</span></a>
                 </li>
               </ul>
             </ul>

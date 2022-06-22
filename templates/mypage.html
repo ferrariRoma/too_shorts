@@ -67,7 +67,7 @@
     <div class="wrap">
       <!--헤더-->
       <header>
-        <nav>
+        <nav class="fixed">
           <!--index페이지 외에서는 nav에 fixed클래스 추가-->
           <div class="nav_wrap">
             <a class="logo" href="/" alt="logo"><span>Too Shorts</span></a>
@@ -101,13 +101,16 @@
           urlSplit = post['URL'].split('/')[-1] %} {% set thumb =
           urlSplit.split('?')[0] %}
           <div class="col">
+              <div class="d-grid gap-2 d-md-block">
+                  <button type="button" class="btn btn-primary"
+                          onclick="window.location.href='/modify/{{ posting_number }}'">
+                      수정
+                  </button>
+                  <button type="button" class="btn btn-danger" onclick="postDelete({{ post.posting_number }})">
+                      삭제
+                  </button>
+              </div>
             <div class="card">
-              <button type="button" class="btn btn-primary" onclick="window.location.href='/modify/{{ posting_number }}'">
-                수정
-              </button>
-              <button type="button" class="btn btn-danger" onclick="postDelete({{ post.posting_number }})">
-                삭제
-              </button>
               <a href="video/{{ thumb }}" alt="유튜브 쇼츠 바로가기" target="_self">
                 <div class="testImg">
                   <img src="https://i1.ytimg.com/vi/{{ thumb }}/hqdefault.jpg" class="card-img-top" alt="img"/>

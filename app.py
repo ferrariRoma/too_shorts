@@ -193,10 +193,18 @@ def submit_posting():
 
 @app.route('/modify/<posting_number>')
 def modify(posting_number):
-    posting = db.postings.find_one({'posting_number':int(posting_number)})
-    posting_url = posting['URL']
-    posting_desc = posting['description']
-    return render_template('modify.html', URL=posting_url, desc=posting_desc, number=posting_number)
+    # 토큰이 있을 때 nickname을 넘겨줌
+    try:
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"id": payload['id']})
+        posting = db.postings.find_one({'posting_number':int(posting_number)})
+        posting_url = posting['URL']
+        posting_desc = posting['description']
+        return render_template('modify.html', URL=posting_url, desc=posting_desc, number=posting_number, nickname=user_info["nick"], state='login')
+    # 토큰이 없을 때 그냥 index.html렌더링
+    except jwt.exceptions.DecodeError:
+        return render_template('login.html', state='logout')
 
 
 @app.route('/api/modify', methods=['POST'])
