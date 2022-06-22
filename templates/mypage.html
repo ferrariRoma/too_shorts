@@ -44,11 +44,20 @@
     <!--navigation-->
     <link rel="stylesheet" href="/static/css/nav.css" />
 
-    <title>Too Shorts</title>
+    <title>Too Shorts | {{ title }}</title>
 
     <script>
-      function postDelete() {
+      function postDelete(id) {
           {#삭제기능#}
+            $.ajax({
+                type: 'POST',
+                url: '/mypage/del',
+                data: {id_give:id},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
       }
     </script>
   </head>
@@ -94,7 +103,7 @@
               <button type="button" class="btn btn-primary" onclick="window.location.href='포스팅 수정 사이트 링크'">
                 수정
               </button>
-              <button type="button" class="btn btn-danger" onclick="postDelete()">
+              <button type="button" class="btn btn-danger" onclick="postDelete({{ post.posting_number }})">
                 삭제
               </button>
               <a href="video/{{ thumb }}" alt="유튜브 쇼츠 바로가기" target="_self">
@@ -103,8 +112,8 @@
                 </div>
                 <div class="card-body">
                   <h5 class="card-title">{{ post.title }}</h5>
-                  <p class="username">{{ post.username }}</p>
-                  <p class="card-text">{{ post.description }}</p>
+                  <p id="nick" class="username">{{ post.username }}</p>
+                  <p id="desc" class="card-text">{{ post.description }}</p>
                 </div>
               </a>
             </div>

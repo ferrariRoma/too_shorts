@@ -184,10 +184,29 @@ def mypage():
         token_receive = request.cookies.get('mytoken')
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.user.find_one({"id": payload['id']})
-        return render_template('mypage.html', nickname=user_info["nick"], state='login', posts=posts)
+        return render_template('mypage.html', nickname=user_info["nick"], state='login', posts=posts, title='마이페이지')
     # 토큰이 없을 때 그냥 index.html렌더링
     except jwt.exceptions.DecodeError:
         return render_template('mypage.html', state='logout', posts=posts)
+
+@app.route('/mypage/del', methods=["POST"])
+def mypage_del():
+
+    try:
+        # 토큰을 쿠키에서 가져옴
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        id_receive = request.form['id_give']
+
+        db.postings.delete_one({'posting_number':int(id_receive)})
+        return jsonify({'msg':'삭제 완료되었습니다.'})
+
+    except jwt.ExpiredSignatureError:
+        # 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
+        return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
+    except jwt.exceptions.DecodeError:
+        return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
 
 # video handler
 @app.route('/video/<id>')
